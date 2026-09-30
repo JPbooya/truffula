@@ -4,19 +4,34 @@ As part of Wave 0, please fill out notes for each of the below files. They are i
 PLEASE MAKE FREQUENT COMMITS AS YOU FILL OUT THIS FILE.
 
 ## App.java
-- This is where most of our directory control lives and prints them as a tree on the command line.
+- App recieves the raw argument but does not interpet them
+- It passes them too TruffulaOptions.java
 
 ## ConsoleColor.java
-- This is where we implement the console text colors for the command line to identify paths or directory.
-- Do research on Enum ansi escape codes
+- This is where colors are defined.
+- This file is a enum class and stores colors.
+- the getCode() returns ansi escape codes with a certain color and returns it as a string.
+- Does not seem to reference any other classes.
 
 ## ColorPrinter.java / ColorPrinterTest.java
-- This is where we implement color for text and set them.
-- Enums (enumuration) this file has the enum color valus which are fix vars
-, for example this file contains the color for them.
+- This is file is where printing the color happens
+- This file also is connected to ConsoleColor.java for printing colored text using the ansi escape codes.
+- Contains two constrcutors, one with just a defualted color.
+- All four print methods eventually call print(message, reset);
 
 ## TruffulaOptions.java / TruffulaOptionsTest.java
+- A regular class with three private variables.
+- It stores root, showHidden and useColor.
+- Getters return the value stored.
+- Connceted too truffulaPrinter.
+- TODO will throw two exceptions.
 
 ## TruffulaPrinter.java / TruffulaPrinterTest.java
+- Contains private fields with options, colorSequence and out and with constructors using output stream.
+- printTree builds the tree and only uses java.io
+
 
 ## AlphabeticalFileSorter.java
+- This arranges an array of files in alphabetic order.
+- This is also a regular utility class.
+- Only has one job.
