@@ -4,10 +4,16 @@ As part of Wave 0, please fill out notes for each of the below files. They are i
 PLEASE MAKE FREQUENT COMMITS AS YOU FILL OUT THIS FILE.
 
 ## App.java
+- This is where most of our directory control lives and prints them as a tree on the command line.
 
 ## ConsoleColor.java
+- This is where we implement the console text colors for the command line to identify paths or directory.
+- Do research on Enum ansi escape codes
 
 ## ColorPrinter.java / ColorPrinterTest.java
+- This is where we implement color for text and set them.
+- Enums (enumuration) this file has the enum color valus which are fix vars
+, for example this file contains the color for them.
 
 ## TruffulaOptions.java / TruffulaOptionsTest.java
 
