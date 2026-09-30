@@ -87,6 +87,12 @@ public class ColorPrinter {
    */
   public void print(String message, boolean reset) {
     // TODO: Implement this!
+    printStream.print(currentColor);
+    printStream.print(message);
+
+    if(reset == true) {
+      printStream.print(ConsoleColor.RESET);
+    }
   }
 
   /**
@@ -97,6 +103,17 @@ public class ColorPrinter {
    */
   public ColorPrinter(PrintStream printStream) {
     this(printStream, ConsoleColor.WHITE);
+
+  }
+   public static void main(String[] args) throws Exception {
+    
+    ColorPrinter showColor = new ColorPrinter(System.out);
+    showColor.println("Hello");
+    showColor.setCurrentColor(ConsoleColor.RED);
+    showColor.println("bye");
+
+    showColor.println("hey", true);
+    System.out.println("Hello World");
   }
 
   /**
