@@ -1,12 +1,14 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+
 
 public class TruffulaOptionsTest {
 
@@ -92,5 +94,33 @@ public class TruffulaOptionsTest {
     assertEquals(directory.getAbsolutePath(), options.getRoot().getAbsolutePath());
     assertTrue(options.isShowHidden());
     assertFalse(options.isUseColor());
+  }
+
+   @Test
+  void testForEmptyArray(@TempDir File tempDir) throws FileNotFoundException {
+    // Arrange: Prepare the arguments with the temp directory
+    File directory = new File(tempDir, "subfolder");
+    directory.mkdir();
+    String directoryPath = directory.getAbsolutePath();
+    String[] args = {};
+
+    // uses lambda () ->
+    assertThrows(IllegalArgumentException.class, () -> new TruffulaOptions(args));
+  
+  }
+
+ 
+  @Test
+  void testForFalseFlags(@TempDir File tempDir) throws FileNotFoundException {
+    // Arrange: Prepare the arguments with the temp directory
+    File directory = new File(tempDir, "subfolder");
+    directory.mkdir();
+    String directoryPath = directory.getAbsolutePath();
+    String[] args = {"-x", directoryPath};
+
+   
+   // uses lambda () ->
+    assertThrows(IllegalArgumentException.class, () -> new TruffulaOptions(args));
+  
   }
 }
