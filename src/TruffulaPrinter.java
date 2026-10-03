@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.PrintStream;
 import java.util.List;
 
@@ -112,7 +113,25 @@ public class TruffulaPrinter {
     // DO NOT USE SYSTEM.OUT.PRINTLN
     // USE out.println instead (will use your ColorPrinter)
 
-    out.println("printTree was called!");
-    out.println("My options are: " + options);
+    printTreeHelper(0, options.getRoot());
   }
+
+  private void printTreeHelper(int depth, File file) {
+    String spaces = " ".repeat(depth * 3);
+    String fileName = file.getName();
+
+    if(file.isDirectory()) {
+      fileName += "/";
+    }
+
+    out.println(spaces + fileName);
+
+    if(file.isDirectory()) {
+      File[] info = file.listFiles();
+
+      for(File child : info) {
+        printTreeHelper(depth + 1, child);
+      }
+    }
+  } 
 }
