@@ -130,6 +130,9 @@ public class TruffulaPrinter {
       File[] info = file.listFiles();
 
       for(File child : info) {
+        if(child.isHidden() && !options.isShowHidden()) {
+          continue;
+        }
         printTreeHelper(depth + 1, child);
       }
     }
