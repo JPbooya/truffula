@@ -185,12 +185,14 @@ public class TruffulaPrinterTest {
 
         ConsoleColor reset = ConsoleColor.RESET;
         ConsoleColor white = ConsoleColor.WHITE;
+        ConsoleColor purple = ConsoleColor.PURPLE;
+        ConsoleColor yellow = ConsoleColor.YELLOW;
 
         StringBuilder expected = new StringBuilder();
         // TODO: three .append lines here
          expected.append(white).append("myFolder/").append(nl).append(reset);
-         expected.append(white).append("   Documents/").append(nl).append(reset);
-         expected.append(white).append("      notes.txt").append(nl).append(reset);
+         expected.append(purple).append("   Documents/").append(nl).append(reset);
+         expected.append(yellow).append("      notes.txt").append(nl).append(reset);
 
         assertEquals(expected.toString(), output);
     }
@@ -263,15 +265,12 @@ public class TruffulaPrinterTest {
         String nl = System.lineSeparator();
 
         ConsoleColor reset = ConsoleColor.RESET;
-        ConsoleColor white = ConsoleColor.WHITE;
+        ConsoleColor purple = ConsoleColor.PURPLE;
 
-        StringBuilder expected = new StringBuilder();
-        // TODO: three .append lines here
-         expected.append(white).append("myFolder/").append(nl).append(reset);
 
-        assertTrue(output.contains(white + "   Apple.txt" + nl + reset ));
-        assertTrue(output.contains(white + "   banana.txt" + nl + reset ));
-        assertTrue(output.contains(white + "   zebra.txt" + nl + reset ));
+        assertTrue(output.contains(purple + "   Apple.txt" + nl + reset ));
+        assertTrue(output.contains(purple + "   banana.txt" + nl + reset ));
+        assertTrue(output.contains(purple + "   zebra.txt" + nl + reset ));
     }
 
      @Test
@@ -355,6 +354,58 @@ public class TruffulaPrinterTest {
         assertTrue(output.contains(".Hidden.txt"));
        
         }
+
+    @Test
+    public void testPrintTree_ColorDepth(@TempDir File tempDir) throws IOException {
+
+        // Create "myFolder"
+        File myFolder = new File(tempDir, "myFolder");
+        assertTrue(myFolder.mkdir(), "myFolder should be created");
+
+        // Create subdirectory "Documents" in myFolder
+        File documents = new File(myFolder, "Documents");
+        assertTrue(documents.mkdir(), "Documents directory should be created");
+
+        File notes = new File(documents, "notes");
+        assertTrue(notes.mkdir(), " notes directory should be created");
+
+
+        // Create one file in Documents
+        File todo = new File(notes, "todo.txt");
+        todo.createNewFile();
+
+        // Set up TruffulaOptions with showHidden = false and useColor = true
+        TruffulaOptions options = new TruffulaOptions(myFolder, false, true);
+
+        // Capture output using a custom PrintStream
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(baos);
+
+        // Instantiate TruffulaPrinter with custom PrintStream
+        TruffulaPrinter printer = new TruffulaPrinter(options, printStream);
+
+        // Call printTree (output goes to printStream)
+        printer.printTree();
+
+        // Retrieve printed output
+        String output = baos.toString();
+        String nl = System.lineSeparator();
+
+        ConsoleColor reset = ConsoleColor.RESET;
+        ConsoleColor white = ConsoleColor.WHITE;
+        ConsoleColor purple = ConsoleColor.PURPLE;
+        ConsoleColor yellow = ConsoleColor.YELLOW;
+
+        StringBuilder expected = new StringBuilder();
+
+         expected.append(white).append("myFolder/").append(nl).append(reset);
+         expected.append(purple).append("   Documents/").append(nl).append(reset);
+         expected.append(yellow).append("      notes/").append(nl).append(reset);
+         expected.append(white).append("         todo.txt").append(nl).append(reset);
+
+        assertEquals(expected.toString(), output);
+    }
+
 
 
     }

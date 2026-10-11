@@ -124,6 +124,7 @@ public class TruffulaPrinter {
       fileName += "/";
     }
 
+    out.setCurrentColor(colorSequence.get(depth % colorSequence.size()));
     out.println(spaces + fileName);
 
     if(file.isDirectory()) {
