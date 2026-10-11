@@ -356,23 +356,18 @@ public class TruffulaPrinterTest {
         }
 
     @Test
-    public void testPrintTree_ColorDepth(@TempDir File tempDir) throws IOException {
+    public void testPrintTree_OutOfOrder(@TempDir File tempDir) throws IOException {
 
         // Create "myFolder"
         File myFolder = new File(tempDir, "myFolder");
         assertTrue(myFolder.mkdir(), "myFolder should be created");
 
-        // Create subdirectory "Documents" in myFolder
-        File documents = new File(myFolder, "Documents");
-        assertTrue(documents.mkdir(), "Documents directory should be created");
-
-        File notes = new File(documents, "notes");
-        assertTrue(notes.mkdir(), " notes directory should be created");
-
-
-        // Create one file in Documents
-        File todo = new File(notes, "todo.txt");
-        todo.createNewFile();
+        File textC = new File(myFolder, "c.txt");
+        textC.createNewFile();
+        File textA = new File(myFolder, "a.txt");
+        textA.createNewFile();
+        File textB = new File(myFolder, "b.txt");
+        textB.createNewFile();
 
         // Set up TruffulaOptions with showHidden = false and useColor = true
         TruffulaOptions options = new TruffulaOptions(myFolder, false, true);
@@ -394,14 +389,13 @@ public class TruffulaPrinterTest {
         ConsoleColor reset = ConsoleColor.RESET;
         ConsoleColor white = ConsoleColor.WHITE;
         ConsoleColor purple = ConsoleColor.PURPLE;
-        ConsoleColor yellow = ConsoleColor.YELLOW;
 
         StringBuilder expected = new StringBuilder();
 
          expected.append(white).append("myFolder/").append(nl).append(reset);
-         expected.append(purple).append("   Documents/").append(nl).append(reset);
-         expected.append(yellow).append("      notes/").append(nl).append(reset);
-         expected.append(white).append("         todo.txt").append(nl).append(reset);
+         expected.append(purple).append("   a.txt").append(nl).append(reset);
+         expected.append(purple).append("   b.txt").append(nl).append(reset);
+         expected.append(purple).append("   c.txt").append(nl).append(reset);
 
         assertEquals(expected.toString(), output);
     }

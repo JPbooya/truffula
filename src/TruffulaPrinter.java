@@ -130,6 +130,8 @@ public class TruffulaPrinter {
     if(file.isDirectory()) {
       File[] info = file.listFiles();
 
+      info = AlphabeticalFileSorter.sort(info);
+
       for(File child : info) {
         if(child.isHidden() && !options.isShowHidden()) {
           continue;
